@@ -24,10 +24,9 @@ Obtain an Authentication Token
 ------------------------------
 
 The Qi service is secured by Azure Active Directory. For a request to succeed, a token must be obtained 
-and attached to every request made to Qi. The sample applications are examples of a confidential client. 
-Confidential clients provide a user Id and secret that are authenticated against the directory. The 
-sample code includes several placeholder strings; you must replace the placeholder strings with the 
-values you received from OSIsoft. The strings are found in ``config.ini``:
+and attached to every request made to Qi. Clients provide a client application identity and secret that are 
+authenticated against the directory. The sample code includes several placeholder strings; you must replace 
+the placeholder strings with the values you received from OSIsoft. The strings are found in ``config.ini``:
 
 .. code:: python
 
@@ -45,7 +44,7 @@ values you received from OSIsoft. The strings are found in ``config.ini``:
     
 
 In your own code, you must replace ``Tenant``, ``Resource``, ``AppId``, and ``AppKey``. You might also want 
-to replace the ``Namespace``. The QiClient usea the information to acquire and attach the appropriate 
+to replace the ``Namespace``. The QiClient uses the information to acquire and attach the appropriate 
 authentication token to requests.
 
 Some of the other Qi samples use Azure Active Directory libraries to manage token acquisition, caching, 
@@ -91,11 +90,22 @@ give it an Id, assign it a type, and submit it to the Qi service. The CreateStre
 QiClient is similar to createType, except that it uses a different URL. 
 Here is how it is called from the main program:
 
+.. code:: python
+
+  stream = QiStream()
+  stream.Id = sampleStreamId
+  stream.Name = "WaveStreamPySample"
+  stream.Description = "A Stream to store the WaveData events"
+  stream.TypeId = type.Id
+  stream.BehaviorId = None
+
+  stream = client.createStream(namespace.Id, stream)
+
 
 Create and Insert Events into the Stream
 ----------------------------------------
 
-A single event is a data point in the Stream. An event object cannot be emtpy and should have 
+A single event is a data point in the Stream. An event object cannot be emtpy and must have 
 at least the key value of the Qi type for the event. Events are passed in JSON format. 
 Here is the call to create a single event in a data stream in QiClient.py:
 
@@ -133,7 +143,7 @@ Here is what the getWindowValues call looks like:
 
   path = "/Qi/{tenant_id}/{namespace_id}/Streams/{stream_id}/Data".format(tenant_id = 
           tenant_id, namespace_id = namespace_id, stream_id = stream_id)
-  query - "GetWindowValues?{start}&{end}".format(
+  query = "GetWindowValues?{start}&{end}".format(
   start = urllib.parse.urlencode({"startIndex": start}),
   end = urllib.parse.urlencode({"endIndex": end}))
 
