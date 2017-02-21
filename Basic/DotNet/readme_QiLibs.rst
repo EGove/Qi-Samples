@@ -54,14 +54,12 @@ The following code block illustrates how to configure clients to use throughout 
 ::
 
   var admin = QiService.GetAdministrationService(new Uri(address), tenant, 
-  new QiSecurityHandler(resource, tenant, appId, appKey));
+       new QiSecurityHandler(resource, tenant, appId, appKey));
   var config = QiService.GetMetadataService(new Uri(address), tenant, namespaceId, 
-  new QiSecurityHandler(resource, tenant, appId, appKey));
+       new QiSecurityHandler(resource, tenant, appId, appKey));
   var client = QiService.GetDataService(new Uri(address), tenant, namespaceId, 
-  new QiSecurityHandler(resource, tenant, appId, appKey));
+       new QiSecurityHandler(resource, tenant, appId, appKey));
   
-  
-A similar pattern is followed in the sample to set up the IQiAdministrationService and IQiMetadataService.
 
 Create a QiType
 ---------------
@@ -81,7 +79,11 @@ is to use one of its static methods:
 ::
 
   QiType type = QiTypeBuilder.CreateQiType<WaveData>();
-  When defining the type, specify the key as follows:
+
+When defining the type, specify the key as follows:
+
+::
+
   public class WaveData 
   {
       [QiMember(IsKey = true)]
