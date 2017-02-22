@@ -122,7 +122,7 @@ involves specifying the stream and a start and end index.
   var retrievedEvents = 
       response.Content.ReadAsAsync<WaveData[]>().GetAwaiter().GetResult();
 
-Index values must be expressed as ISO 8601 strings.
+Index values representing time must be expressed as ISO 8601 strings.
 
 Cleanup
 --------
